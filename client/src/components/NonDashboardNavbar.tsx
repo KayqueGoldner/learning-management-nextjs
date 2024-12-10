@@ -25,14 +25,14 @@ export const NonDashboardNavbar = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="nondashboard-navbar__actions">
-        <button className="nondashboard-navbar__notification-button">
-          <span className="nondashboard-navbar__notification-indicator"></span>
-          <BellIcon className="nondashboard-navbar__notification-icon" />
-        </button>
+        <div className="nondashboard-navbar__actions">
+          <button className="nondashboard-navbar__notification-button">
+            <span className="nondashboard-navbar__notification-indicator"></span>
+            <BellIcon className="nondashboard-navbar__notification-icon" />
+          </button>
 
-        {/* SIGN IN BUTTONS */}
+          {/* SIGN IN BUTTONS */}
+        </div>
       </div>
     </nav>
   );
