@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 
 import Providers from "@/app/providers";
 
@@ -21,12 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={dmSans.className}>
-        <Providers>
-          <div className="root-layout">{children}</div>
-        </Providers>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={dmSans.className}>
+          <Providers>
+            <div className="root-layout">{children}</div>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
