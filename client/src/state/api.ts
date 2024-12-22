@@ -1,21 +1,21 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BaseQueryApi, FetchArgs } from "@reduxjs/toolkit/query";
-// import { User } from "@clerk/nextjs/server";
-// import { Clerk } from "@clerk/clerk-js";
-// import { toast } from "sonner";
+import { User } from "@clerk/nextjs/server";
+import { Clerk } from "@clerk/clerk-js";
+import { toast } from "sonner";
 
 const customBaseQuery = async (
   args: string | FetchArgs,
   api: BaseQueryApi,
-  extraOptions: any
+  extraOptions: any,
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: async (headers) => {
-      // const token = await window.Clerk?.session?.getToken();
-      // if (token) {
-      //   headers.set("Authorization", `Bearer ${token}`);
-      // }
+      const token = await window.Clerk?.session?.getToken();
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
       return headers;
     },
   });
@@ -29,7 +29,7 @@ const customBaseQuery = async (
         errorData?.message ||
         result.error.status.toString() ||
         "An error occurred";
-      // toast.error(`Error: ${errorMessage}`);
+      toast.error(`Error: ${errorMessage}`);
     }
 
     const isMutationRequest =
@@ -37,7 +37,7 @@ const customBaseQuery = async (
 
     if (isMutationRequest) {
       const successMessage = result.data?.message;
-      // if (successMessage) toast.success(successMessage);
+      if (successMessage) toast.success(successMessage);
     }
 
     if (result.data) {
@@ -209,7 +209,7 @@ export const api = createApi({
       invalidatesTags: ["UserCourseProgress"],
       async onQueryStarted(
         { userId, courseId, progressData },
-        { dispatch, queryFulfilled }
+        { dispatch, queryFulfilled },
       ) {
         const patchResult = dispatch(
           api.util.updateQueryData(
@@ -220,8 +220,8 @@ export const api = createApi({
                 ...draft,
                 sections: progressData.sections,
               });
-            }
-          )
+            },
+          ),
         );
         try {
           await queryFulfilled;
