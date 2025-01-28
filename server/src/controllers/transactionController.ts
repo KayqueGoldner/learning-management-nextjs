@@ -1,7 +1,6 @@
 import Stripe from "stripe";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
-
 import Course from "../models/courseModel";
 import Transaction from "../models/transactionModel";
 import UserCourseProgress from "../models/userCourseProgressModel";
@@ -9,7 +8,9 @@ import UserCourseProgress from "../models/userCourseProgressModel";
 dotenv.config();
 
 if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error("STRIPE_SECRET_KEY env variable is required");
+  throw new Error(
+    "STRIPE_SECRET_KEY os required but was not found in env variables"
+  );
 }
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -26,7 +27,7 @@ export const listTransactions = async (
       : await Transaction.scan().exec();
 
     res.json({
-      message: "Transactions retrieved Successfully",
+      message: "Transactions retrieved successfully",
       data: transactions,
     });
   } catch (error) {
@@ -74,10 +75,10 @@ export const createTransaction = async (
   const { userId, courseId, transactionId, amount, paymentProvider } = req.body;
 
   try {
-    // get course info
+    // 1. get course info
     const course = await Course.get(courseId);
 
-    // create transaction record
+    // 2. create transaction record
     const newTransaction = new Transaction({
       dateTime: new Date().toISOString(),
       userId,
@@ -88,7 +89,7 @@ export const createTransaction = async (
     });
     await newTransaction.save();
 
-    // create initial course progress
+    // 3. create initial course progress
     const initialProgress = new UserCourseProgress({
       userId,
       courseId,
@@ -105,7 +106,7 @@ export const createTransaction = async (
     });
     await initialProgress.save();
 
-    // add enrollment to course
+    // 4. add enrollment to relevant course
     await Course.update(
       { courseId },
       {
@@ -116,7 +117,7 @@ export const createTransaction = async (
     );
 
     res.json({
-      message: "Purchase Course Successfully",
+      message: "Purchased Course successfully",
       data: {
         transaction: newTransaction,
         courseProgress: initialProgress,

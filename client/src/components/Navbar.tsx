@@ -27,6 +27,7 @@ export const Navbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
                   "dashboard-navbar__search-input",
                   isCoursePage && "!bg-customgreys-secondarybg",
                 )}
+                scroll={false}
               >
                 <span className="hidden sm:inline">Search Courses</span>
                 <span className="sm:hidden">Search</span>

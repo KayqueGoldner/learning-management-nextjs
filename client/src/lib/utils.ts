@@ -1,8 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import * as z from "zod";
-import { api } from "../state/api";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -290,7 +289,7 @@ export const customDataGridStyles = {
 
 export const createCourseFormData = (
   data: CourseFormData,
-  sections: Section[]
+  sections: Section[],
 ): FormData => {
   const formData = new FormData();
   formData.append("title", data.courseTitle);
@@ -315,7 +314,7 @@ export const createCourseFormData = (
 export const uploadAllVideos = async (
   localSections: Section[],
   courseId: string,
-  getUploadVideoUrl: any
+  getUploadVideoUrl: any,
 ) => {
   const updatedSections = localSections.map((section) => ({
     ...section,
@@ -333,13 +332,13 @@ export const uploadAllVideos = async (
             chapter,
             courseId,
             updatedSections[i].sectionId,
-            getUploadVideoUrl
+            getUploadVideoUrl,
           );
           updatedSections[i].chapters[j] = updatedChapter;
         } catch (error) {
           console.error(
             `Failed to upload video for chapter ${chapter.chapterId}:`,
-            error
+            error,
           );
         }
       }
@@ -353,7 +352,7 @@ async function uploadVideo(
   chapter: Chapter,
   courseId: string,
   sectionId: string,
-  getUploadVideoUrl: any
+  getUploadVideoUrl: any,
 ) {
   const file = chapter.video as File;
 
@@ -373,15 +372,15 @@ async function uploadVideo(
       },
       body: file,
     });
-    // toast.success(
-    //   `Video uploaded successfully for chapter ${chapter.chapterId}`
-    // );
+    toast.success(
+      `Video uploaded successfully for chapter ${chapter.chapterId}`,
+    );
 
     return { ...chapter, video: videoUrl };
   } catch (error) {
     console.error(
       `Failed to upload video for chapter ${chapter.chapterId}:`,
-      error
+      error,
     );
     throw error;
   }

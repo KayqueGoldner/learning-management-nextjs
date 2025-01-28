@@ -64,14 +64,18 @@ const CourseEditor = () => {
 
   const onSubmit = async (data: CourseFormData) => {
     try {
-      const formData = createCourseFormData(data, sections);
+      const updatedSections = await uploadAllVideos(
+        sections,
+        id,
+        getUploadVideoUrl,
+      );
 
-      const updatedCourse = await updateCourse({
+      const formData = createCourseFormData(data, updatedSections);
+
+      await updateCourse({
         courseId: id,
         formData,
       }).unwrap();
-
-      // await uploadAllVideos();
 
       refetch();
     } catch (error) {

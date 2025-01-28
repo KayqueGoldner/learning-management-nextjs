@@ -22,7 +22,7 @@ export const TeacherCourseCard = ({
       <CardHeader className="course-card-teacher__header">
         {course.image && (
           <Image
-            src={course.image}
+            src={course.image || "/placeholder.png"}
             alt={course.title}
             width={370}
             height={200}
@@ -65,12 +65,11 @@ export const TeacherCourseCard = ({
           )}
         </div>
 
-        <div className="mt-3 flex w-full gap-2">
+        <div className="mt-3 w-full gap-2 space-y-2 xl:flex xl:space-y-0">
           {isOwner ? (
             <>
               <div>
                 <Button
-                  variant="outline"
                   className="course-card-teacher__edit-button"
                   onClick={() => onEdit(course)}
                 >
@@ -80,7 +79,6 @@ export const TeacherCourseCard = ({
               </div>
               <div>
                 <Button
-                  variant="destructive"
                   className="course-card-teacher__delete-button"
                   onClick={() => onDelete(course)}
                 >

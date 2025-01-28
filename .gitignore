@@ -1,1 +1,7 @@
+**/node_modules/
+**/dist/
+**/.env*
 .vscode
+server/shared-local-instance.db
+server/dynamodb-local-metadata.json
+shared-local-instance.db

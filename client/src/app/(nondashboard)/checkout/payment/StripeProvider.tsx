@@ -68,7 +68,7 @@ export const StripeProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <Elements stripe={stripePromise} options={options}>
+    <Elements stripe={stripePromise} options={options} key={clientSecret}>
       {children}
     </Elements>
   );
